@@ -1,3 +1,4 @@
+import csv
 import turtle
 import time
 from snake import Snake
@@ -14,6 +15,16 @@ agent = Agent()
 food = Food()
 notifications = Notifications()
 game_on = True
+
+
+def write_score(new_score):
+    with open('score.csv', mode='r') as read_file:
+        csv_reader = csv.reader(read_file)
+        current_score = int(next(csv_reader)[0])
+        if new_score > current_score:
+            with open('score.csv', mode='w') as write_file:
+                csv_writer = csv.writer(write_file)
+                csv_writer.writerow([new_score])
 
 
 def snake_eats_food(obj_1, obj_2):
@@ -42,6 +53,7 @@ while game_on:
     _, direction = agent.next_move(snake, food)
     if direction is None:
         notifications.game_over()
+        write_score(notifications.score)
         game_on = False
     snake_direction(snake, direction)
     snake.move()

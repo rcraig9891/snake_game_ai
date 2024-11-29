@@ -30,8 +30,7 @@ class Agent:
         valid_movements = queue.PriorityQueue()
         neighbours = ['right', 'left', 'up', 'down']
         neighbours.remove(self.restricted_moves[snake.direction])
-        heuristic = snake.heuristic
-        """Greedy Local Search"""
+        """Local Search Algorithm"""
         for neighbour in neighbours:
             dx, dy = self.direction_adjustments[neighbour]
             position = (snake.head.xcor() + dx, snake.head.ycor() + dy)
@@ -42,7 +41,7 @@ class Agent:
                 if calculate_distance(position, square.xcor(), square.ycor()) < 10:
                     collision = True
             """Greedy Local Search: Add commented code to if statement"""
-            if not collision: # new_heuristic < heuristic and
+            if not collision:
                 valid_movements.put((new_heuristic, neighbour))
         """Terminate if no valid moves"""
         if valid_movements.empty():
